@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    public function index(Seller $seller) {
     
-        return view('layouts.ecommerce.category');
+    public function index(Request $request) {
+        $category = Category::where('seller_id', $request->user('seller')->id)->get();     
+    return view('layouts.ecommerce.category',compact('category','category'));
   
     }
 

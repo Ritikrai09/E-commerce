@@ -1,20 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Seller;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
 {
-  public function __construct() {
-    
-    $this->middleware(['auth.seller']);
 
-}
-    public function index(Request $request) {
+    public function index(Seller $seller,Request $request) {
       
-
-     return view('layouts.ecommerce.selldash');
+      $seller = $seller->withCount(['products','categories'])->where('id', $request->user('seller')->id)->get();
+      return view('layouts.ecommerce.selldash',compact('seller','seller'));
     
 
     //  $seller = Seller::with(['customers'])->get();  

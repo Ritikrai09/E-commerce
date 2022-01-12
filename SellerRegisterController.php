@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Seller;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Providers\App\Events\UserCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,7 +27,7 @@ class SellerRegisterController extends Controller
                 'state' =>'required',
           ]);
 
-          Seller::create([
+          $seller = Seller::create([
             'SellerName' =>$request->SellerName,
             'CompanyName' =>$request->CompanyName,
             'email' =>$request->email,
@@ -35,7 +37,7 @@ class SellerRegisterController extends Controller
             'city' =>$request->city,
             'state' =>$request->state,
         ]);
-       
+    
          if(Auth::guard('seller')->attempt($request->only('email','password'))){
         return redirect()->route('sellerdashboard')->with('success','your are registered successfully...');
        }
