@@ -14,13 +14,15 @@ class CreateCustomersTable extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->increments('id');       // alias of bigInt // increments('id')  --auto increments unsigned integer or  bigincrements('id')  --auto increments unsigned bigint 
-            $table->string('name');   
-            $table->bigInteger('contact');
-            $table->integer('flatNo');
-            $table->mediumText('Address');
-            $table->string('city');
-            $table->string('state');
+            $table->increments('id');       // alias of bigInt // increments('id')  --auto increments unsigned integer or  bigincrements('id')  --auto increments unsigned bigint
+            $table->unsignedInteger('seller_id');
+            $table->foreign('seller_id')->references('id')->on('sellers');
+            $table->string('name')->nullable();   
+            $table->bigInteger('contact')->nullable();
+            $table->bigInteger('flatNo')->nullable();
+            $table->mediumText('Address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
             $table->timestamps();
         });
     }
