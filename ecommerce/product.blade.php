@@ -7,6 +7,7 @@
      @csrf     
      @if(session()->has('success'))
          <div class='alert alert-success'>
+         <button type='button' class='text-white close' data-dismiss='alert'>❌</button>
             <ul>
                <li>{{ session()->get('success')}}</li>
              </ul>
@@ -37,8 +38,8 @@
                  <select type="dropdown" name='category' id='category'
                   class='bg-gray-100 text-secondary border-2 w-75 h-10 rounded-lg mt-5 @error('category') ? border-3 border-danger bg-red-100 : '' @enderror'>
                   <option selected disabled>select category</option>
-                     @foreach($category as $data) 
-                        <option value="{{ $data->id }}">{{ $data->category }}</option>
+                     @foreach($product as $data) 
+                        <option value="{{ $data->id }}">{{ $data->categoryName }}</option>
                      @endforeach
                  </select>
               

@@ -43,19 +43,20 @@ Route::get('/product', function () {
 
 ///-------------------------------------------------------------------ecommerce----------------------------
 
-
-Route::get('/seller/dashboard',[SellerController::class,'index'])->name('sellerdashboard')->middleware(['auth.seller']);
-Route::get('/orders',function(){return view('layouts.ecommerce.order');})->name('orders');
-Route::get('/products',function(){ return view('layouts.ecommerce.product');})->name('products');
+Route::group(['middleware'=> 'auth.seller'], function(){
+Route::get('/seller/dashboard',[SellerController::class,'index'])->name('sellerdashboard');
+Route::get('/orders',[OrderController::class,'index'])->name('orders');
+Route::get('/products',[ProductController::class,'index'])->name('products');
 Route::get('/category',[CategoryController::class,'index'])->name('category');
 Route::post('/products', [ProductController::class,'store']);
 Route::post('/category',[CategoryController::class,'store']);
 Route::get('/products/Available',function(){ return view('layouts.ecommerce.productAvailable');})->name('productAvailable');
 Route::get('/customers',function(){ return view('layouts.ecommerce.customer');})->name('customers');
 Route::get('/report',function(){ return view('layouts.ecommerce.report');})->name('report');
-Route::get('/billings',function(){ return view('layouts.ecommerce.bill');})->name('billings');
+Route::get('/billings',[CustomerController::class,'index'])->name('billings');
+Route::post('/billings', [CustomerController::class,'store']);
 Route::post('/sellerlogout', [logoutController::class,'logoutSeller'])->name('logoutSeller');
-
+});
 Route::prefix('seller')->group(function(){
 Route::get('/register',function(){ return view('layouts.ecommerce.sellerRegister');})->name('sellerRegister');
 Route::post('/register',[SellerRegisterController::class,'store']);
